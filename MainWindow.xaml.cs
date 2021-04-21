@@ -24,5 +24,13 @@ namespace SimpleApplicationWPF
         {
             InitializeComponent();
         }
+
+
+        //Support for closing a window with a field button
+        void fileExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Close this window
+            this.Close();
+        }
     }
 }
