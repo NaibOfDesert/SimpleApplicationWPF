@@ -5,12 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleApplicationWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="400" Width="600">
+    <Window.Resources>
+        <ContextMenu x:Key="ContextMenuFile">
+            <MenuItem Header="Open" Click="FileOpen_Click"/>
+            <MenuItem Header="Exit" Click="FileExit_Click"/>
+        </ContextMenu>
+        <ContextMenu x:Key="ContextMenuDirectory">
+            <MenuItem Header="Create" Click="DirectoryCreate_Click"/>
+            <MenuItem Header="Delete" Click="DirectoryDelete_Click"/>
+        </ContextMenu>
+    </Window.Resources>
     <Grid>
-        <Menu>
-            <MenuItem Header="_File">
-                <MenuItem Header="E_xit" Click="fileExitMenuItem_Click" />
-            </MenuItem>
-        </Menu>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <GridSplitter Grid.Column="1" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="White"  ShowsPreview="True" Width="2"/>
+
+        <ToolBar>
+            <Menu Grid.Column="0" Grid.Row="0" VerticalAlignment="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Open" Click="MenuOpen_Click"/>
+                    <MenuItem Header="Exit" Click="MenuExit_Click"/>
+                </MenuItem>
+            </Menu>
+        </ToolBar>
+
+        <TreeView Grid.Column="0" Grid.Row="1" Name="TreeView" SelectedItemChanged="TreeView_SelectedItemChanged"/>
+
+        <StatusBar Grid.Column="0" Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Name="FileRash"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <ScrollViewer Grid.Column="2" Grid.RowSpan="2">
+            <TextBlock Name="FileData" TextWrapping="Wrap"/>
+        </ScrollViewer>
     </Grid>
 </Window>
