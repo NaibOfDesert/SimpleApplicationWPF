@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using System.Text.RegularExpressions;
+
 
 namespace SimpleApplicationWPF
 {
@@ -22,6 +25,19 @@ namespace SimpleApplicationWPF
         public NewItemWindow()
         {
             InitializeComponent();
+            this.Owner = App.Current.MainWindow;
         }
+
+        private void TextBox_NewItemName(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void  Ok_Click (object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }

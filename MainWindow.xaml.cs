@@ -22,6 +22,7 @@ namespace SimpleApplicationWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Mian Window initialization
         public MainWindow()
         {
             InitializeComponent();
@@ -77,9 +78,9 @@ namespace SimpleApplicationWPF
                     root.Items.Add(item);
                 }
             }
-            catch (System.UnauthorizedAccessException e)
+            catch (System.UnauthorizedAccessException exc)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(exc.Message);
             }
 
             return root;
@@ -90,20 +91,39 @@ namespace SimpleApplicationWPF
         {
             if (TreeView.SelectedItem != null)
             {
-                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> string => explicit conversion
-                string filePath = (string)selectedFile.Tag; //object -> string => explicit conversion
-                StreamReader streamReader = new StreamReader(filePath);
-                // ?????????????
-                using (streamReader)
-                {
-                    FileData.Text = streamReader.ReadToEnd();
-                }
+                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
+                StreamReader streamReader = new StreamReader(selectedFilePath);
+
+                FileData.Text = streamReader.ReadToEnd();
             }
             else return;
         }
-        void FileExit_Click(object sender, RoutedEventArgs e)
+        void FileDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (TreeView.SelectedItem != null)
+            {
+                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
+                FileInfo file = new FileInfo(selectedFilePath);
 
+                if (file.FindAttribute(FileAttributes.ReadOnly))
+                    file.DeleteAttribute(FileAttributes.ReadOnly);
+
+                try
+                {
+                    File.Delete(selectedFilePath);
+                }
+                catch (System.UnauthorizedAccessException exc)
+                {
+                    Console.WriteLine(exc.Message);
+                    return;
+                }
+
+                TreeViewItem parent = (TreeViewItem)selectedFile.Parent; //object -> TreeViewItem => explicit conversion
+                parent.Items.Remove(TreeView.SelectedItem);
+            }
+            else return;
         }
 
         void  DirectoryCreate_Click(object sender, RoutedEventArgs e)
@@ -126,9 +146,6 @@ namespace SimpleApplicationWPF
         {
 
         }
-
-
-
 
 
     }

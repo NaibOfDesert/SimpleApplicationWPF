@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InfoExtensions.cs" />
     <Compile Include="NewItemWindow.xaml.cs">
       <DependentUpon>NewItemWindow.xaml</DependentUpon>
     </Compile>

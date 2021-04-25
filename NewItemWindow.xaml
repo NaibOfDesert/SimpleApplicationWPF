@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleApplicationWPF"
         mc:Ignorable="d"
-        Title="NewItemWindow" Height="450" Width="450">
+        Title="NewItemWindow" Height="350" MinHeight="350" Width="350" MinWidth="350">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" MinHeight="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Grid.Row="1" x:Name="newItemNameText" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Name:" />
+        <TextBox Grid.Column="3" Grid.Row="1" x:Name="newItemName" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextWrapping="Wrap" Text="New File Name" MinWidth="200" TextChanged="TextBox_NewItemName"/>
+        <RadioButton Grid.Column="3" Grid.Row="3" x:Name="typeFile" HorizontalAlignment="Left" VerticalAlignment="Center" GroupName="ItemType" Content="File" IsChecked="True" />
+        <RadioButton Grid.Column="3" Grid.Row="4" x:Name="typeDirectory" HorizontalAlignment="Left" VerticalAlignment="Center" GroupName="ItemType" Content="Directory" IsChecked="False"/>
+        <CheckBox Grid.Column="3" Grid.Row="6" x:Name="readOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Content="ReadOnly"/>
+        <CheckBox Grid.Column="3" Grid.Row="7" x:Name="archive" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Archive"/>
+        <CheckBox Grid.Column="3" Grid.Row="8" x:Name="hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Hidden"/>
+        <CheckBox Grid.Column="3" Grid.Row="9" x:Name="system" HorizontalAlignment="Left" VerticalAlignment="Top" Content="System"/>
+        <Button Grid.Column="3" Grid.Row="11" x:Name="ok" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Ok" Click="Ok_Click" IsDefault="True" Margin="-70,0,0,0" Width="50"/>
+        <Button Grid.Column="3" Grid.Row="11" x:Name="cancel" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Cancel" IsCancel="True" Margin="70,0,0,0" Width="50"/>
     </Grid>
 </Window>
