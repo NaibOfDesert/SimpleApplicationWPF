@@ -93,7 +93,7 @@ namespace SimpleApplicationWPF
                 TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> string => explicit conversion
                 string filePath = (string)selectedFile.Tag; //object -> string => explicit conversion
                 StreamReader streamReader = new StreamReader(filePath);
-
+                // ?????????????
                 using (streamReader)
                 {
                     FileData.Text = streamReader.ReadToEnd();
@@ -110,8 +110,8 @@ namespace SimpleApplicationWPF
         {
             if (TreeView.SelectedItem != null)
             {
-                // CreateDialog createDialog = new CreateDialog();
-                // createDialog.ShowDialog();
+                NewItemWindow newItem = new NewItemWindow();
+                newItem.ShowDialog();
             } 
             else return;
         }
