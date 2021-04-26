@@ -35,7 +35,8 @@ namespace SimpleApplicationWPF
 
         private void  Ok_Click (object sender, RoutedEventArgs e)
         {
-
+            this.DialogResult = false;
+            this.Close();
         }
 
 

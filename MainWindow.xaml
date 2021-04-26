@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleApplicationWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" MinHeight="200" Width="500" MinWidth="300">
+        Title="MainWindow" Height="400" MinHeight="200" Width="500" MinWidth="500">
     <Window.Resources>
         <ContextMenu x:Key="ContextMenuFile">
             <MenuItem Header="Open" Click="FileOpen_Click"/>
@@ -18,9 +18,9 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" MinWidth="100"/>
+            <ColumnDefinition Width="150" MinWidth="100" MaxWidth="400"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" MinWidth="120"/>
+            <ColumnDefinition Width="*" MinWidth="150"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -39,7 +39,7 @@
         <TreeView Grid.Column="0" Grid.Row="1" Name="TreeView" SelectedItemChanged="TreeView_SelectedItemChanged"/>
         <StatusBar Grid.Column="0" Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Name="FileRash"/>
+                <TextBlock Name="FileAttributes"/>
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Grid.Column="2" Grid.RowSpan="2">

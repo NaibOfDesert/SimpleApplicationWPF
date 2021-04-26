@@ -35,19 +35,5 @@ namespace SimpleApplicationWPF
 
             return attributes;
         }
-
-        // Finding file attribute
-        public static bool FindAttribute(this System.IO.FileSystemInfo __file, FileAttributes __attribute)
-        {
-            // ?????????????????
-            return (__file.Attributes == __attribute);
-        }
-
-        // Deleting attribute.
-        public static void DeleteAttribute(this System.IO.FileSystemInfo __file, FileAttributes __attribute)
-        {
-            __file.Attributes ^= __attribute;
-        }
-
     }
 }

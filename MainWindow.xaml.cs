@@ -86,7 +86,7 @@ namespace SimpleApplicationWPF
             return root;
         }
 
-        // Opening file data as a text
+        // ContextMenu - opening file data as a text
         void FileOpen_Click(object sender, RoutedEventArgs e)
         {
             if (TreeView.SelectedItem != null)
@@ -99,35 +99,52 @@ namespace SimpleApplicationWPF
             }
             else return;
         }
+
+        // ContextMenu - deleting file
         void FileDelete_Click(object sender, RoutedEventArgs e)
         {
             if (TreeView.SelectedItem != null)
             {
                 TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
-                string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
-                FileInfo file = new FileInfo(selectedFilePath);
+                string selectedFilePath = (string)selectedFile.Tag;
+                FileInfo selectedFileInfo = new FileInfo(selectedFilePath);
 
-                if (file.FindAttribute(FileAttributes.ReadOnly))
-                    file.DeleteAttribute(FileAttributes.ReadOnly);
-
-                try
-                {
-                    File.Delete(selectedFilePath);
-                }
-                catch (System.UnauthorizedAccessException exc)
-                {
-                    Console.WriteLine(exc.Message);
-                    return;
-                }
+                FileDelete(selectedFileInfo);
 
                 TreeViewItem parent = (TreeViewItem)selectedFile.Parent; //object -> TreeViewItem => explicit conversion
                 parent.Items.Remove(TreeView.SelectedItem);
+
             }
             else return;
         }
 
-        void  DirectoryCreate_Click(object sender, RoutedEventArgs e)
+        // Deleting file core function
+        void FileDelete(FileInfo __selectedFile)
         {
+            string selectedFilePath = __selectedFile.FullName; 
+            FileAttributes selectedFileAttributes = File.GetAttributes(selectedFilePath);
+
+            // Delete ReadOnly
+            if (selectedFileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly))
+            {
+                File.SetAttributes(selectedFilePath, selectedFileAttributes & ~System.IO.FileAttributes.ReadOnly);
+            }
+
+            try
+            {
+                File.Delete(selectedFilePath);
+            }
+            catch (IOException exc)
+            {
+                Console.WriteLine(exc.Message);
+                return;
+            }
+        }
+
+        // ContextMenu - creating new directory - obening NewItemWindow
+        void DirectoryCreate_Click(object sender, RoutedEventArgs e)
+        {
+            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             if (TreeView.SelectedItem != null)
             {
                 NewItemWindow newItem = new NewItemWindow();
@@ -136,17 +153,79 @@ namespace SimpleApplicationWPF
             else return;
         }
 
+        // ContextMenu - deleting directory with content
         void DirectoryDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (TreeView.SelectedItem != null)
+            {
+                TreeViewItem selectedDirectory = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                string selectedDirectoryPath = (string)selectedDirectory.Tag; //object -> string => explicit conversion
+                DirectoryInfo selectedDirectoryInfo = new DirectoryInfo(selectedDirectoryPath);
 
+                DirectoryDelete(selectedDirectoryInfo);
+
+                if (selectedDirectory.Parent.GetType() == typeof(TreeViewItem) && selectedDirectory.Parent != null)
+                {
+                    TreeViewItem parent = (TreeViewItem)selectedDirectory.Parent; //object -> TreeViewItem => explicit conversion
+                    parent.Items.Remove(TreeView.SelectedItem);
+                }
+                else
+                {
+                    TreeView.Items.Clear();
+                }
+            }
+            else return;
         }
 
-        // Event handling
+        // Deleting directory core function with loop
+        void DirectoryDelete(DirectoryInfo __selectedDirectoryInfo)
+        {
+            string selectedDirectoryPath = __selectedDirectoryInfo.FullName; //object -> string => explicit conversion
+            FileAttributes selectedDirectoryAttributes = File.GetAttributes(selectedDirectoryPath);
+
+            // Delete ReadOnly
+            if (selectedDirectoryAttributes.HasFlag(System.IO.FileAttributes.ReadOnly))
+            {
+                File.SetAttributes(selectedDirectoryPath, selectedDirectoryAttributes & ~System.IO.FileAttributes.ReadOnly);
+            }
+
+            foreach (var d in __selectedDirectoryInfo.GetDirectories())
+            {
+                DirectoryDelete(d);
+            }
+
+            foreach (var f in __selectedDirectoryInfo.GetFiles())
+            {
+                FileDelete(f);
+            }
+
+            try
+            {
+                Directory.Delete(selectedDirectoryPath);
+            }
+            catch (IOException exc)
+            {
+                Console.WriteLine(exc.Message);
+                return;
+            }
+        }
+
+        // Verifying item attributes
         void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
         {
+            if (TreeView.SelectedItem != null)
+            {
+                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
+                FileInfo file = new FileInfo(selectedFilePath);
 
+                FileAttributes.Text = file.SetAttributes();
+            }
+            else
+            {
+                FileAttributes.Text = "----";
+                return;
+            }
         }
-
-
     }
 }
