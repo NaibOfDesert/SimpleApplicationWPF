@@ -36,14 +36,14 @@
                 </MenuItem>
             </Menu>
         </ToolBar>
-        <TreeView Grid.Column="0" Grid.Row="1" Name="TreeView" SelectedItemChanged="TreeView_SelectedItemChanged"/>
+        <TreeView Grid.Column="0" Grid.Row="1" Name="treeView" SelectedItemChanged="TreeView_SelectedItemChanged"/>
         <StatusBar Grid.Column="0" Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Name="FileAttributes"/>
+                <TextBlock Name="fileAttributes"/>
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Grid.Column="2" Grid.RowSpan="2">
-            <TextBlock Name="FileData" TextWrapping="Wrap"/>
+            <TextBlock Name="fileData" TextWrapping="Wrap"/>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -38,8 +38,8 @@ namespace SimpleApplicationWPF
             {
                 DirectoryInfo path = new DirectoryInfo(dlg.SelectedPath);
 
-                TreeView.Items.Clear();
-                TreeView.Items.Add(NewTreeItem(path));
+                treeView.Items.Clear();
+                treeView.Items.Add(NewTreeItem(path));
             }
             else return;
         }
@@ -89,13 +89,13 @@ namespace SimpleApplicationWPF
         // ContextMenu - opening file data as a text
         void FileOpen_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeView.SelectedItem != null)
+            if (treeView.SelectedItem != null)
             {
-                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                TreeViewItem selectedFile = (TreeViewItem)treeView.SelectedItem; //object -> TreeViewItem => explicit conversion
                 string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
                 StreamReader streamReader = new StreamReader(selectedFilePath);
 
-                FileData.Text = streamReader.ReadToEnd();
+                fileData.Text = streamReader.ReadToEnd();
             }
             else return;
         }
@@ -103,16 +103,16 @@ namespace SimpleApplicationWPF
         // ContextMenu - deleting file
         void FileDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeView.SelectedItem != null)
+            if (treeView.SelectedItem != null)
             {
-                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                TreeViewItem selectedFile = (TreeViewItem)treeView.SelectedItem; //object -> TreeViewItem => explicit conversion
                 string selectedFilePath = (string)selectedFile.Tag;
                 FileInfo selectedFileInfo = new FileInfo(selectedFilePath);
 
                 FileDelete(selectedFileInfo);
 
                 TreeViewItem parent = (TreeViewItem)selectedFile.Parent; //object -> TreeViewItem => explicit conversion
-                parent.Items.Remove(TreeView.SelectedItem);
+                parent.Items.Remove(treeView.SelectedItem);
 
             }
             else return;
@@ -144,11 +144,14 @@ namespace SimpleApplicationWPF
         // ContextMenu - creating new directory - obening NewItemWindow
         void DirectoryCreate_Click(object sender, RoutedEventArgs e)
         {
-            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            if (TreeView.SelectedItem != null)
+            if (treeView.SelectedItem != null)
             {
-                NewItemWindow newItem = new NewItemWindow();
-                newItem.ShowDialog();
+                TreeViewItem selectedItem = (TreeViewItem)treeView.SelectedItem;
+                string selectedItemPath = (string)selectedItem.Tag;
+
+                NewItemWindow newItemWindow = new NewItemWindow(selectedItem, selectedItemPath);
+                newItemWindow.Owner = this;
+                newItemWindow.ShowDialog();
             } 
             else return;
         }
@@ -156,9 +159,9 @@ namespace SimpleApplicationWPF
         // ContextMenu - deleting directory with content
         void DirectoryDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeView.SelectedItem != null)
+            if (treeView.SelectedItem != null)
             {
-                TreeViewItem selectedDirectory = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                TreeViewItem selectedDirectory = (TreeViewItem)treeView.SelectedItem; //object -> TreeViewItem => explicit conversion
                 string selectedDirectoryPath = (string)selectedDirectory.Tag; //object -> string => explicit conversion
                 DirectoryInfo selectedDirectoryInfo = new DirectoryInfo(selectedDirectoryPath);
 
@@ -167,11 +170,11 @@ namespace SimpleApplicationWPF
                 if (selectedDirectory.Parent.GetType() == typeof(TreeViewItem) && selectedDirectory.Parent != null)
                 {
                     TreeViewItem parent = (TreeViewItem)selectedDirectory.Parent; //object -> TreeViewItem => explicit conversion
-                    parent.Items.Remove(TreeView.SelectedItem);
+                    parent.Items.Remove(treeView.SelectedItem);
                 }
                 else
                 {
-                    TreeView.Items.Clear();
+                    treeView.Items.Clear();
                 }
             }
             else return;
@@ -213,17 +216,17 @@ namespace SimpleApplicationWPF
         // Verifying item attributes
         void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<Object> e)
         {
-            if (TreeView.SelectedItem != null)
+            if (treeView.SelectedItem != null)
             {
-                TreeViewItem selectedFile = (TreeViewItem)TreeView.SelectedItem; //object -> TreeViewItem => explicit conversion
+                TreeViewItem selectedFile = (TreeViewItem)treeView.SelectedItem; //object -> TreeViewItem => explicit conversion
                 string selectedFilePath = (string)selectedFile.Tag; //object -> string => explicit conversion
                 FileInfo file = new FileInfo(selectedFilePath);
 
-                FileAttributes.Text = file.SetAttributes();
+                fileAttributes.Text = file.SetAttributes();
             }
             else
             {
-                FileAttributes.Text = "----";
+                fileAttributes.Text = "----";
                 return;
             }
         }

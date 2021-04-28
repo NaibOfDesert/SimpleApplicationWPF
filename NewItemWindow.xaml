@@ -32,7 +32,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.Row="1" x:Name="newItemNameText" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Name:" />
-        <TextBox Grid.Column="3" Grid.Row="1" x:Name="newItemName" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextWrapping="Wrap" Text="New File Name" MinWidth="200" TextChanged="TextBox_NewItemName"/>
+        <TextBox Grid.Column="3" Grid.Row="1" x:Name="newItemName" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextWrapping="Wrap" Text="New File Name" MinWidth="200" />
         <RadioButton Grid.Column="3" Grid.Row="3" x:Name="typeFile" HorizontalAlignment="Left" VerticalAlignment="Center" GroupName="ItemType" Content="File" IsChecked="True" />
         <RadioButton Grid.Column="3" Grid.Row="4" x:Name="typeDirectory" HorizontalAlignment="Left" VerticalAlignment="Center" GroupName="ItemType" Content="Directory" IsChecked="False"/>
         <CheckBox Grid.Column="3" Grid.Row="6" x:Name="readOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Content="ReadOnly"/>
